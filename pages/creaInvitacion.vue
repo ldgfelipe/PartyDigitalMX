@@ -43,10 +43,18 @@
                                 <v-btn @click="cerrarpreview()" class="elevation-0 white--text" color="#ff6666"  ><v-icon>mdi-close</v-icon></v-btn>
                             </v-card-title>
                             <v-card-text class="pa-0 ma-0">
-                                <Menu :componentes="componentes" />
-                                <!----carga plantilla --->
-                                <plantillaInvitacion :proptema="plantilla" @cargaInfoComponentes="loandInfoComponentes" :componentes="componentes" />
+                            <v-toolbar>
+                                <Menu :componentes="componentes" /> <v-btn><v-icon>mdi-content-save</v-icon></v-btn>
+                            </v-toolbar>
 
+                            <div style="width:100%; max-width:100%; max-height:600px;  min-height:500px; height:100%; overflow: auto;">
+                                <!----carga plantilla --->
+                                <plantillaInvitacion :proptema="plantilla" @InfoPlantilla="cargaInfoPlantilla" :componentes="componentes" />
+                         
+                            </div>
+                            <v-alert  style="position:fixed;bottom:0px; width:100%; height:100px; overflow: auto; opacity:0.7;">
+                                {{ this.infoInvitacion }}
+                            </v-alert>
                             </v-card-text>
                         </v-card>
                     </v-dialog>
@@ -86,13 +94,20 @@ export default {
                     nombre: "Cabecera",
                     estado: true,
                     menu: "Cabecera",
+                    edit:false
 
-                }
+                },
+                {
+                    nombre: "Cabecera",
+                    estado: true,
+                    menu: "Cabecera",
+                    edit:false
+
+                },
+               
             ],
             infoInvitacion:{
-                componentes:[
-
-                ]
+               
             }
             
         }
@@ -102,9 +117,19 @@ export default {
         plantillaInvitacion,
         Menu
     },
+    mounted(){
+        setTimeout(()=>{
+            this.infoInvitacion={
+            plantilla:this.plantilla,
+            componentes:this.componentes
+        }
+        },2000)
+       
+    },
     methods: {
-        loandInfoComponentes(evt){
-            this.infoCompoentes=evt
+        cargaInfoPlantilla(evt){
+            this.infoInvitacion=evt
+            console.log(evt)
             /// ehecuta y guarda infomación de invitación
 
         },
@@ -127,6 +152,10 @@ export default {
             this.seccion = evt.etapa
             this.preview = true
             this.plantilla = evt
+            this.infoInvitacion={
+            plantilla:evt,
+            componentes:this.componentes
+        }
     
         },
         cerrarpreview(){/// elimina los liks de las etiquetas agregadas 

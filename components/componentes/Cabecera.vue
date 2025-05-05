@@ -2,9 +2,11 @@
     <v-row>
         
         <v-col cols="12" class="text-center" >
-       
-
-                    <h1 :style="props.title">Titulo1</h1>
+       <v-btn @click="editarcomponente()"><v-icon>mdi-pencil</v-icon></v-btn>
+                   
+              
+               
+                    <v-text-field v-model="datacomponente.titulo" :style="props.title" ></v-text-field>
                     <h2 :style="props.subtitle">Subtitulo</h2>
                     <p :style="props.text">
                     Texto descriptivo para probar la plantilla del sistema 
@@ -22,8 +24,10 @@ export default {
         }
      },
      methods:{
-
+        editarcomponente(){
+            this.datacomponente.edit === true ? this.datacomponente.edit = false : this.datacomponente.edit = true
+        }
      },
-     props:['props']
+     props:['props','datacomponente'],
 }
 </script>
