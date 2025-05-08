@@ -15,6 +15,7 @@
 <script>
 //// componente de cabecera de plantilla muestra imagen principal de la cabecera de la plantilla
 export default {
+    name:'testcomponent',
      data(){
         return {
 

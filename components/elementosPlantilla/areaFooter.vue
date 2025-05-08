@@ -2,8 +2,8 @@
 <v-footer class="text-center  flex-column ga-2 py-4" color="red-lighten-1" style="position:relative; z-index:0;">
     <div class="d-flex ga-3">
      <v-btn
-        v-for="icon in icons"
-        :key="icon"
+        v-for="(icon,index) in icons"
+        :key="'icon'+index"
         :href="icon.url"
         target="_blank"
         variant="text"

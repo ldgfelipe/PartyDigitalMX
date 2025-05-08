@@ -6,7 +6,13 @@
     <v-card-text>
         <v-row>
             <v-col cols="12" md="4">
-Mis invitaciones
+ <v-btn style="background-color: #ff6666; color:white;" @click="listaInv=true"> Mis invitaciones</v-btn>        
+               
+                <v-dialog v-model="listaInv" fullscreen persistent>
+                    <listadoInvitaciones></listadoInvitaciones>
+                </v-dialog>
+ 
+
             </v-col>
             <v-col cols="12" md="4">
 Pagos realizados
@@ -22,14 +28,14 @@ Pagos realizados
     </v-card>
 </template>
 <script>
-import listadoplantillas
- from '~/components/adminplantillas/listadoplantillas.vue'
+import listadoplantillas from '@/components/adminplantillas/listadoplantillas.vue'
+import listadoInvitaciones from '@/components/adminplantillas/listaInvitaciones.vue'
 import {mapState} from 'vuex'
 
 export default {
     data(){
         return {
-
+            listaInv:false
         }
     },
     computed:{
@@ -42,7 +48,8 @@ export default {
         }
     },
     components:{
-        listadoplantillas
+        listadoplantillas,
+        listadoInvitaciones
     }
 }
 </script>

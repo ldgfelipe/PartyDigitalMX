@@ -2,10 +2,12 @@
   export const mutations = {
     updateDtUser(state,data){
         state.dtUser=data
+        state.is_login=true
     },
     logoutData(state,data){
         state.dtUser = {}
         state.user  = {}
+        state.is_login=false
     },
     cambiarStatusLogin(state,data){
         state.is_login=data

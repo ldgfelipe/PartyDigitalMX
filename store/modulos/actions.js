@@ -9,6 +9,7 @@
         if (!authUser) {
             ctx.commit('cambiarStatusLogin',false)
         } else {
+            ctx.commit('cambiarStatusLogin',true)
             console.log(ctx)
            /* app.$fireModule.firestore().collection('usuarios').where('regid','==',authUser.uid).get()
             .then((re)=>{

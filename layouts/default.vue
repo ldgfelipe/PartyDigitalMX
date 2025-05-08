@@ -36,8 +36,10 @@
       :clipped-left="clipped"
       fixed
       app
+      v-if="$route.name!=='invitacion-uid'"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"  style="color:#ff6666;"   />
+    
+      <v-app-bar-nav-icon  @click.stop="drawer = !drawer"  style="color:#ff6666;"     />
 
       <v-spacer></v-spacer>
       <v-btn style="background:#ff6666; color:white;" v-if="!is_login" class="elevation-0" @click="loginmod=true">Iniciar Sesión</v-btn>

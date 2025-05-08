@@ -2,15 +2,22 @@
     <v-row>
         
         <v-col cols="12" class="text-center" >
-       <v-btn @click="editarcomponente()"><v-icon>mdi-pencil</v-icon></v-btn>
-                   
+ 
+    
+       <v-switch v-if="previewMode===false" v-model="datacomponente.edit" :label="datacomponente.edit ? 'Normal' : 'Editar'"></v-switch> 
+   
               
-               
-                    <v-text-field v-model="datacomponente.titulo" :style="props.title" ></v-text-field>
-                    <h2 :style="props.subtitle">Subtitulo</h2>
-                    <p :style="props.text">
-                    Texto descriptivo para probar la plantilla del sistema 
+                     <div v-if="!datacomponente.edit" :style="props.title">{{ datacomponente.titulo }}</div>   
+                    <v-text-field v-if="datacomponente.edit" v-model="datacomponente.titulo"  label="Titulo" ></v-text-field>
+
+                    <div v-if="!datacomponente.edit" :style="props.subtitle">{{ datacomponente.subtitulo }}</div>   
+                    <v-text-field v-if="datacomponente.edit" v-model="datacomponente.subtitulo"  label="Subtitulo" ></v-text-field>
+
+                    <p  v-if="!datacomponente.edit"  :style="props.text">
+                   {{datacomponente.texto}}
                 </p>
+                <v-textarea  v-if="datacomponente.edit" label="Texto descripción" v-model="datacomponente.texto"></v-textarea>
+
                 </v-col>
     </v-row>
 </template>
@@ -18,16 +25,38 @@
 //// componente de cabecera de plantilla muestra imagen principal de la cabecera de la plantilla
 
 export default {
+    name: 'Cabecera',
      data(){
         return {
 
         }
      },
-     methods:{
-        editarcomponente(){
-            this.datacomponente.edit === true ? this.datacomponente.edit = false : this.datacomponente.edit = true
-        }
+     created(){
+            this.datacomponente.titulo = 'Ingresa el titulo de tu evento';
+            this.datacomponente.subtitulo = 'Subtitulo de tu evento';
+            this.datacomponente.texto = 'Puedes ingresar un texto aplio a tu evento';
+      
      },
-     props:['props','datacomponente'],
+     methods:{
+       
+     },
+     props:{
+        props:{},
+        datacomponente:{
+            titulo:{
+                type:String,
+                default:'datos'
+            },
+            subtitulo:{
+                type:String,
+                default:'Ingresa el subtitulo'
+            },
+            texto:{
+                type:String,
+                default:'Ingresa el texto',
+            },
+    },
+     previewMode:false
+    },
 }
 </script>
