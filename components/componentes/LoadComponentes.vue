@@ -1,6 +1,5 @@
 <template>
-
-        <EspacioComponentes :props="proptema.tema" @cargaparametros="modparams">
+        <EspacioComponentes :props="proptema.tema" >
             <component v-if="asyncComponent" :is="asyncComponent" :props="proptema.tema" :datacomponente="datacomponente" :previewMode="modparams" />
         </EspacioComponentes>
 
@@ -8,7 +7,9 @@
 
 <script>
 import EspacioComponentes from '@/components/elementosPlantilla/espacioComponentes.vue';
+import componentMap from '~/components/map.js'
 export default {
+  name:'LoadComponentes',
     data() {
         return {
  
@@ -16,16 +17,19 @@ export default {
     },
     computed: {
     asyncComponent() {
+     
         console.log(this.datacomponente.path)
-      return () => import(`~/components/${this.datacomponente.path}`).catch((err) => {
-          console.error(`Error cargando componente ${this.name}:`, err)
-          return null
-        })
+      const comp = componentMap[this.datacomponente.path]
+      if (!comp) {
+        console.warn(`Componente "${this.datacomponente.nombre}" no encontrado.`)
+      }
+      return comp || null
+    
  
     },
   },
 
-    props:['proptema','componentes','datacomponente','modparams'],
+    props:['proptema','datacomponente','modparams'],
     components:{
         EspacioComponentes
     }

@@ -1,13 +1,6 @@
 var componentes=  [ {
-    path: "componentes/Cabecera.vue",
+    path: "componentes/Cabecera",
     nombre: "Cabecera",
-    estado: true,
-    menu: "Cabecera",
-    edit:false
-},
-{
-    path: "componentes/testcomponent.vue",
-    nombre: "testcomponente",
     estado: true,
     menu: "Cabecera",
     edit:false

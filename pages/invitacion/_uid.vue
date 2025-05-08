@@ -20,11 +20,12 @@ indeterminate
          
         </div>
 
-      <formatoInvitacion  v-if="!loading" :data="invitacion"  ></formatoInvitacion>
+      <FormatoInvitacion  v-if="!loading" :data="invitacion"  ></FormatoInvitacion>
     </div>
 </template>
 <script>
-import formatoInvitacion from '@/components/invitacion/formatoInvitacion.vue'
+import FormatoInvitacion from '@/components/invitacion/formatoInvitacion.vue'
+
 export default{
     data(){
         return {
@@ -34,7 +35,7 @@ export default{
         }
     },
     components:{
-        formatoInvitacion
+        FormatoInvitacion
     },
     created(){
  

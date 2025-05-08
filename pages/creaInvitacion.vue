@@ -83,8 +83,21 @@
                                         </v-toolbar>
                                     </v-card-title>
                                     <v-card-text>
+                                   
                                         <div :style="'margin:auto; width:100%; max-width:'+mediaport+'; height:600px; border:solid 10px gray; padding:0px; border-radius:30px; overflow-y:scroll;  overflow-x:hidden;'">
-                                       <formatoInvitacion :data="infoInvitacion" :mode="previewMode" ></formatoInvitacion> 
+                                         
+                                            <div
+                                                :style="'background-image:url(\'' + infoInvitacion.plantilla.urlImagen + '\'); height:auto; width:100%; max-width:100%; background-size:cover; background-attachment: fixed;'">
+                                                <v-row>
+                                                    <v-col cols="12" md="12" v-for="(key, index) in infoInvitacion.componentes" :key="index" v-show="key.estado">
+                                                
+                                                        <LoadComponentes  :proptema="infoInvitacion.plantilla"  :datacomponente="key"  :modparams="previewMode" ></LoadComponentes>
+                                                    </v-col>
+                                                    <v-col cols="12" md="12" >
+                                                        <AreaFooter  />
+                                                    </v-col>
+                                                </v-row>
+                                            </div>
                                         </div>
                                     </v-card-text>
                                 </v-card>
@@ -112,10 +125,12 @@
 import categorias from '@/schemas/categoriasSh' ///  carga esquema de categoria o puede carga desde la base de firebase 
 import seleccionfondo from '@/components/seleccionfondo.vue'
 import plantillaInvitacion from '@/components/plantillaInvitacion.vue'
-import formatoInvitacion from '@/components/invitacion/formatoInvitacion.vue'
+import FormatoInvitacion from '@/components/invitacion/formatoInvitacion.vue'
 import { mapState } from 'vuex'
 import LoginModRegister from '@/components/loginModRegister.vue'
-import  componentes  from '@/schemas/componentes'
+import componentes from '@/schemas/componentes'
+import AreaFooter from '@/components/elementosPlantilla/areaFooter.vue';
+import LoadComponentes from '@/components/componentes/LoadComponentes.vue'
 export default {
     data() {
         return {
@@ -146,8 +161,10 @@ export default {
     components:{
         seleccionfondo,
         plantillaInvitacion,
-        formatoInvitacion,
-        LoginModRegister
+        FormatoInvitacion,
+        LoginModRegister,
+        AreaFooter,
+        LoadComponentes
     },
     mounted(){
         setTimeout(()=>{
