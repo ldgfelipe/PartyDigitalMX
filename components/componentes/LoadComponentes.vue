@@ -1,13 +1,19 @@
 <template>
         <EspacioComponentes :props="proptema.tema" >
-            <component v-if="asyncComponent" :is="asyncComponent" :props="proptema.tema" :datacomponente="datacomponente" :previewMode="modparams" />
+            <component v-if="datacomponente.nombre" :is="datacomponente.nombre" :props="proptema.tema" :datacomponente="datacomponente" :previewMode="modparams" />
         </EspacioComponentes>
 
 </template>
 
 <script>
 import EspacioComponentes from '@/components/elementosPlantilla/espacioComponentes.vue';
-import componentMap from '~/components/map.js'
+//  import componentMap from '~/components/map.js'
+//**
+// Importación de componentes
+//  */
+import Cabecera from '@/components/componentes/Cabecera.vue';
+
+
 export default {
   name:'LoadComponentes',
     data() {
@@ -15,20 +21,9 @@ export default {
  
         }
     },
-    computed: {
-    asyncComponent() {
-     
-        console.log(this.datacomponente.path)
-      const comp = componentMap[this.datacomponente.path]
-      if (!comp) {
-        console.warn(`Componente "${this.datacomponente.nombre}" no encontrado.`)
-      }
-      return comp || null
-    
- 
+    components:{
+      Cabecera
     },
-  },
-
     props:['proptema','datacomponente','modparams'],
     components:{
         EspacioComponentes

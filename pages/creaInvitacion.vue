@@ -34,77 +34,8 @@
             <v-row v-if="seccion === 3">
                 <v-col cols="12" sm="12" class="text-white">
                     <v-dialog v-model="preview" fullscreen persistent>
-                        <v-card>
-                            <v-card-title style="background-color:#ff6666;" class="pa-4 white--text"> 
-                               
-                                <span :class="'text-' + colortxt">Categoría: {{ plantilla.categoria }} Tema: {{ plantilla.title }}</span>
-                                <v-spacer></v-spacer>
-
-                                <v-btn @click="cerrarpreview()" class="elevation-0 white--text" color="#ff6666"  ><v-icon>mdi-close</v-icon></v-btn>
-                            </v-card-title>
-                            <v-card-text class="pa-0 ma-0">
-                            <v-toolbar>
-                             
-
-                                <v-btn   @click="showmenucomp===true ? showmenucomp=false : showmenucomp=true" title="Componentes" ><v-icon>mdi-package</v-icon></v-btn>
-                                <v-btn title="Guardara Invitación" @click="guardarInvitacion()"><v-icon>mdi-content-save</v-icon></v-btn> 
-                                <v-btn title="Previsualizar" @click="VerPrevisualizacion()"><v-icon>mdi-eye</v-icon></v-btn>
-
-                                    
-                            </v-toolbar>
-                            <div v-if="showmenucomp">
-                                <v-list  >
-                                    <v-list-subheader>Componentes </v-list-subheader>
-                                    <v-list-item v-for="(item, index) in componentes" :key="index">
-                                        {{ item.nombre }} <v-checkbox v-model="item.estado"></v-checkbox>
-                                        </v-list-item>
-                            </v-list>
-                        </div>
-
-                            <div style="width:100%; max-width:100%; max-height:600px;  min-height:500px; height:100%; overflow: auto;">
-                                <!----carga plantilla --->
-                                <plantillaInvitacion :proptema="plantilla"  :componentes="componentes" :mode="previewMode" />
-                         
-                            </div>
-                            <v-alert  style="display:block; position:fixed; bottom:0px; width:100%; height:100px; overflow: auto; opacity:0.7;">
-                                {{ this.dtUser }}
-                            </v-alert>
-
-                            <v-dialog v-model="previewMode" fullscreen persistent>
-                                <v-card>
-
-                                    <v-card-title>
-                                        <v-toolbar class="text-center" >
-                                            <v-btn @click="mediaport='100%'" ><v-icon>mdi-monitor</v-icon></v-btn> 
-                                            <v-btn @click="mediaport='800px'" ><v-icon>mdi-tablet</v-icon></v-btn>
-                                            <v-btn @click="mediaport='400px'" ><v-icon>mdi-cellphone</v-icon></v-btn> 
-                                            <v-spacer></v-spacer>
-                                            <v-btn @click="previewMode=false"><v-icon>mdi-close</v-icon></v-btn>
-                                        </v-toolbar>
-                                    </v-card-title>
-                                    <v-card-text>
-                                   
-                                        <div :style="'margin:auto; width:100%; max-width:'+mediaport+'; height:600px; border:solid 10px gray; padding:0px; border-radius:30px; overflow-y:scroll;  overflow-x:hidden;'">
-                                         
-                                            <div
-                                                :style="'background-image:url(\'' + infoInvitacion.plantilla.urlImagen + '\'); height:auto; width:100%; max-width:100%; background-size:cover; background-attachment: fixed;'">
-                                                <v-row>
-                                                    <v-col cols="12" md="12" v-for="(key, index) in infoInvitacion.componentes" :key="index" v-show="key.estado">
-                                                
-                                                        <LoadComponentes  :proptema="infoInvitacion.plantilla"  :datacomponente="key"  :modparams="previewMode" ></LoadComponentes>
-                                                    </v-col>
-                                                    <v-col cols="12" md="12" >
-                                                        <AreaFooter  />
-                                                    </v-col>
-                                                </v-row>
-                                            </div>
-                                        </div>
-                                    </v-card-text>
-                                </v-card>
-                             
-                            </v-dialog>
-                            </v-card-text>
-                        </v-card>
+                        <!---carga componente editor de invitaciones--->
+                        <editorInvitaciones :plantilla="plantilla" :componentes="componentes" :infoInvitacion="infoInvitacion" @cierraeditor="preview=false"></editorInvitaciones>
                     </v-dialog>
 
 
@@ -114,9 +45,7 @@
                         Tema</v-btn>
                 </v-col>
             </v-row>
-            <v-dialog v-model="logmodreg" persistent max-width="1200px">
-                <LoginModRegister @cerrarpop="loginregister"></LoginModRegister>
-            </v-dialog>
+           
 
         </div>
     </div>
@@ -124,20 +53,18 @@
 <script>
 import categorias from '@/schemas/categoriasSh' ///  carga esquema de categoria o puede carga desde la base de firebase 
 import seleccionfondo from '@/components/seleccionfondo.vue'
-import plantillaInvitacion from '@/components/plantillaInvitacion.vue'
-import FormatoInvitacion from '@/components/invitacion/formatoInvitacion.vue'
 import { mapState } from 'vuex'
-import LoginModRegister from '@/components/loginModRegister.vue'
+
 import componentes from '@/schemas/componentes'
-import AreaFooter from '@/components/elementosPlantilla/areaFooter.vue';
-import LoadComponentes from '@/components/componentes/LoadComponentes.vue'
+import editorInvitaciones from '~/components/invitacion/editorInvitaciones.vue'
+
+
 export default {
     data() {
         return {
             categorias:categorias ,
             catselect: '',
             imgback: '/imgs/sinselect.jpg',
-            colortxt: 'red',
             seccion: 1,
             plantilla: {},
             temaselected: "",
@@ -149,9 +76,8 @@ export default {
             infoInvitacion:{
                
             },
-            previewMode:false,
-            mediaport:'100%',
-            logmodreg:false
+          
+        
             
         }
     },
@@ -160,11 +86,8 @@ export default {
     },
     components:{
         seleccionfondo,
-        plantillaInvitacion,
-        FormatoInvitacion,
-        LoginModRegister,
-        AreaFooter,
-        LoadComponentes
+        editorInvitaciones
+    
     },
     mounted(){
         setTimeout(()=>{
@@ -176,12 +99,7 @@ export default {
        
     },
     methods: {
-        VerPrevisualizacion(){
-            this.previewMode=true
-            this.componentes.map((e)=>{
-                e.edit=false
-            })
-        },
+       
      
         selecCategoria(v) { //// toma datos del fondo 
             console.log(v)
@@ -220,26 +138,7 @@ export default {
             }
   
         },
-       async registraInvitacion(){
-        this.infoInvitacion.userId=this.dtUser.regid
-        await this.$fireModule.firestore().collection('invitaciones').add(this.infoInvitacion)
-        .then((res)=>{
-            console.log(res)
-            alert('plantilla registrada')
-        })
-        },
-        guardarInvitacion(){
-            console.log(this.is_login)
-            if(!this.is_login){
-            this.logmodreg=true
-            }else{
-               this.registraInvitacion()
-            }
-        },
-        loginregister(evt){
-            this.logmodreg=false
-            this.registraInvitacion()
-        }
+      
     }
 }
 

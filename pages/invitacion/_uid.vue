@@ -19,8 +19,32 @@ indeterminate
     </v-progress-circular>
          
         </div>
+        <div v-if="!loading">
+            <v-main v-if="invitacion.statuspay" >
+      <FormatoInvitacion  v-if="siexisteTema" :data="invitacion"  ></FormatoInvitacion>
+                    </v-main>
+                    <v-main v-if="!invitacion.statuspay" >
 
-      <FormatoInvitacion  v-if="!loading" :data="invitacion"  ></FormatoInvitacion>
+                        Pendiente de publicación
+
+                    </v-main>
+      </div>
+        <v-dialog persistent v-model="nodisponible" max-width="500">
+        <v-card>
+            <v-card-title style="background-color: #ff6666; color:white; text-align: center;"  >
+                Invitación No Disponible
+            </v-card-title>
+            <v-card-text>
+                <v-main class="text-center"> 
+                    Lo sentimos la invitación ya no esta disponible, si desea crear una nueva invitación por favor haga clic en el botón de crear invitación.
+
+                    <v-btn to="/creaInvitacion" style="background-color: #ff6666; color:white;">Crear Invitación</v-btn>
+                </v-main>
+
+            </v-card-text>
+        </v-card> 
+        </v-dialog>    
+
     </div>
 </template>
 <script>
@@ -29,8 +53,13 @@ import FormatoInvitacion from '@/components/invitacion/formatoInvitacion.vue'
 export default{
     data(){
         return {
-            invitacion:{},
-            loading:true
+            invitacion:{
+                urlImagen:"",
+                tema:[]
+            },
+            loading:true,
+            nodisponible:false,
+            siexisteTema:false
 
         }
     },
@@ -48,7 +77,9 @@ export default{
        async  cargaInvitacion(){
         await this.$fireModule.firestore().collection('invitaciones').doc(this.$route.params.uid).get()
         .then((res)=>{
-            console.log(res.data())
+            console.log(res)
+            if(res.exists){
+
             this.invitacion=res.data()
             /// cambio edit a false
             this.editmodefalse()
@@ -56,14 +87,31 @@ export default{
             this.addcabecera()
             setTimeout(()=>{
                 this.loading=false
+                this.siexisteTema=true
             },2000)
-          
-
+        }else{
+            this.loading=false
+            this.nodisponible=true
+    this.siexisteTema=false
+        }
+        this.guardaVisita()
         })
         },
         editmodefalse(){
             this.invitacion.componentes.map((e)=>{
                 e.edit=false
+            })
+        },
+        guardaVisita(){
+            if(this.invitacion.visitas){
+                this.invitacion.visitas=this.invitacion.visitas+1
+            }else{  
+                this.invitacion.visitas=1
+            }
+            this.$fireModule.firestore().collection('invitaciones').doc(this.$route.params.uid).set(this.invitacion)
+            .then((e)=>{
+                console.log(e)
+                console.log('Visita registrada correctamente..')
             })
         },
         addcabecera() { /// carga datos de cabecera 

@@ -1,3 +1,4 @@
+
 export default {
     methods:{
         addcabecera() { /// carga datos de cabecera 

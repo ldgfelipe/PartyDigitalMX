@@ -23,10 +23,21 @@ export default {
     ],
 
   },
+  components: [
+    {
+      path: '~/components/componentes/LoadComponentes.vue'
+      // Puedes especificar un componente o varios componentes
+      // Ejemplo: '~/components/MyComponent.vue'
+      // '~/components' representa la raíz de tu aplicación
+     
+      // Opcional: puedes agregar una lista de componentes globales aquí
+      // Ejemplo: ['MyComponent.vue', 'AnotherComponent.vue']
+    }
+  ],
   /*
   ** Customize the progress-bar color
   */
-  //loading: '@/components/LoadingBar.vue',
+loading: '~/components/LoadingBar.vue',
   /*
   ** Global CSS
   */
@@ -40,25 +51,38 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '~/plugins/vue-stripe.js', ssr: false },
   ],
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
     '@nuxtjs/vuetify',
+     '@nuxtjs/google-analytics'
 
   ],
+   googleAnalytics: {
+    // Options
+    id: process.env.GOOGLE_ANALYTICS_ID,
+  },
+  
   /*
   ** Nuxt.js modules
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
     '@nuxtjs/pwa',
-    '@nuxtjs/firebase'
+    '@nuxtjs/firebase',
+   
+  
   ],
+ 
+  env: {
+    STRIPE_PK: process.env.NODE_ENV === 'production' ?  process.env.stripe_public_key : process.env.stripe_test_public_key,
+    ENVI:process.env.NODE_ENV
+  },
   firebase: {
     // options
 
@@ -81,8 +105,7 @@ export default {
         }
       },
       firestore:{
-         // ...
-        enablePersistence: true
+         enablePersistence: true,
       },
       storage:true
     } // Just as example. Can be any other service.
@@ -126,7 +149,7 @@ build: {
   ** You can extend webpack config here
   */
   extend(config, ctx) {
-  
+    console.log('modo de '+process.env.NODE_ENV)
   }
 },
 ssr:false,

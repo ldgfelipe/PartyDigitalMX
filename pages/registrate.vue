@@ -13,7 +13,9 @@
                 <v-alert color="red" v-if="msgerror" >
                     {{ msgerror }}
                 </v-alert>
-                <v-btn style="background-color:#ff6666; color:white;" @click="registrate()">Guardar</v-btn>
+                <v-btn style="background-color:#ff6666; color:white;" @click="registrate()">Guardar</v-btn> <v-btn
+                        @click="RegistroConGoogle()" title="registrate con google"
+                        style="background-color:#ff6666; color:white;"><v-icon>mdi-google</v-icon></v-btn>
             </v-card-text>
         </v-card>
     </v-container>
@@ -59,6 +61,33 @@ export default{
             setTimeout(()=>{
                     this.msgerror=""
                 },2000)
+        },
+        async RegistroConGoogle(){
+            
+            try {
+                const provider = new this.$fireModule.auth.GoogleAuthProvider()
+                await this.$fire.auth.signInWithPopup(provider)
+                    .then((dt) => {
+
+                        var payload = {
+                            nombre: dt.user.displayName,
+                            email: dt.user.email,
+                            tplog: 'google',
+                            regid: dt.user.uid,
+                            lvl: 0
+                        }
+                        this.$fireModule.firestore().collection('usuarios').add(payload)
+                        this.updateDtUser(payload)
+
+                          
+                    this.$router.push('/dashboard')
+                    })
+                // here you can do what you want with the user data
+                //this.$router.push('/') // that return from firebase
+            } catch (e) {
+                // handle the error
+        
+            }
         }
     }
 }

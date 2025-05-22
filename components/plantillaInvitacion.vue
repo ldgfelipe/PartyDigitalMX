@@ -2,8 +2,7 @@
             <div
                 :style="'background-image:url(\'' + proptema.urlImagen + '\'); height:auto; width:100%; max-width:100%; background-size:cover; background-attachment: fixed;'">
                 <v-row>
-                    <v-col cols="12" md="12" v-for="(key, index) in componentes" :key="index" v-show="key.estado">
-                  
+                    <v-col cols="12" md="12" v-if="componentes" v-for="(key, index) in componentes" :key="index" v-show="key.estado">
                         <LoadComponentes  :proptema="proptema"  :datacomponente="key"  :modparams="mode" ></LoadComponentes>
                     </v-col>
                     <v-col cols="12" md="12" >
@@ -14,14 +13,12 @@
 </template>
 <script>
 //// carga la plantilla donde muestra toda la información 
-
 import loadImportPlantilla from '~/mixins/loadImportPlantilla_mixins.js';
-import LoadComponentes from '@/components/componentes/LoadComponentes.vue'
 import AreaFooter from '@/components/elementosPlantilla/areaFooter.vue';
+
 export default {
     data() {
         return {
-           
             showlatel:true,
             params:{}
         }
@@ -38,7 +35,6 @@ export default {
        
     },
     components: {
-        LoadComponentes,
         AreaFooter
 
     },

@@ -10,12 +10,27 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "22"
+    "node": "20"
   },
   "main": "index.js",
   "dependencies": {
     "firebase-admin": "^12.6.0",
-    "firebase-functions": "^6.0.1"
+    "firebase-functions": "^6.0.1",
+     "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/eslint-module": "^3.1.0",
+    "@nuxtjs/firebase": "^8.2.2",
+    "@nuxtjs/moment": "^1.6.1",
+    "@nuxtjs/pwa": "^2.6.0",
+    "core-js": "^3.25.3",
+    "cors": "^2.8.5",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "firebase": "^9.10.0",
+    "stripe": "^10.15.0",
+    "vue": "^2.7.10",
+    "vue-server-renderer": "^2.7.10",
+    "vue-template-compiler": "^2.7.10"
   },
   "devDependencies": {
     "eslint": "^8.15.0",

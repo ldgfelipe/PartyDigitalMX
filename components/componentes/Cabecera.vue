@@ -32,14 +32,17 @@ export default {
         }
      },
      created(){
-            this.datacomponente.titulo = 'Ingresa el titulo de tu evento';
-            this.datacomponente.subtitulo = 'Subtitulo de tu evento';
-            this.datacomponente.texto = 'Puedes ingresar un texto aplio a tu evento';
+          console.log('carga componente Cabecera')
+
+             if(!this.datacomponente.titulo || this.datacomponente.titulo ==='' ) this.datacomponente.titulo = 'Ingresa el titulo de tu evento' ;
+            if(!this.datacomponente.subtitulo || this.datacomponente.subtitulo ==='' ) this.datacomponente.subtitulo = 'Subtitulo de tu evento';
+            if(!this.datacomponente.texto || this.datacomponente.texto ==='' ) this.datacomponente.texto= 'Puedes ingresar un texto aplio a tu evento';
       
      },
      methods:{
        
      },
+    
      props:{
         props:{},
         datacomponente:{

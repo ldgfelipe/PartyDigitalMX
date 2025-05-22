@@ -16,7 +16,6 @@
 //// carga la plantilla donde muestra toda la información 
 
 import loadImportPlantilla from '~/mixins/loadImportPlantilla_mixins.js';
-import LoadComponentes from '@/components/componentes/LoadComponentes.vue'
 import AreaFooter from '@/components/elementosPlantilla/areaFooter.vue';
 export default {
 data() {
@@ -36,9 +35,7 @@ modparams(evt){
     this.$emit('cargaInfoComponentes',this.params)
 }
 },
-components: {
-        LoadComponentes,
-        AreaFooter
+components: {        AreaFooter
 
     },
 props: ['data'],

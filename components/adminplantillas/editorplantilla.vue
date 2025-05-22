@@ -67,7 +67,7 @@
     </v-row>
 </template>
 <script>
-import testcomponent from '@/components/componentes/testcomponent.vue'
+///import testcomponent from '@/components/componentes/testcomponent.vue'
 import EspacioComponentes from '@/components/elementosPlantilla/espacioComponentes.vue';
 import categorias from '@/schemas/categoriasSh'
 export default {
@@ -182,6 +182,7 @@ export default {
 
             }
         },
+        
         LimpiarFuentes() {
             var remtema = document.getElementsByClassName('addertema')
 
